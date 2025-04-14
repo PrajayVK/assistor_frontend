@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from "react-native";
-import { styles } from "../styles/login.styles";
+import { styles } from "../styles/signup.styles";
 import SignupScreen from "./signup";
 export default function Index() {
   return (

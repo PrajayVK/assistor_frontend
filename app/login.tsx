@@ -12,43 +12,38 @@ import { useNavigation } from "@react-navigation/native";
 import { styles } from "@/styles/signup.styles";
 import { useRouter } from "expo-router";
 
-const SignupScreen = () => {
-  const [name, setName] = useState("");
+const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigation = useNavigation();
   const router = useRouter();
-  const handleSignup = async () => {
-    if (!name || !email || !password) {
+
+  const handleLogin = async () => {
+    if (!email || !password) {
       Alert.alert("Error", "Please fill all fields");
       return;
     }
-
     setIsLoading(true);
 
     try {
-      const response = await fetch("http:/192.168.1.8:8080/api/signup", {
+      const response = await fetch("http:/192.168.1.8:8080/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
           email,
           password,
         }),
       });
-
       const data = await response.json();
-
       if (response.ok) {
-        Alert.alert("Success", "Account created successfully!");
+        Alert.alert("Success", "Login successful!");
       } else {
-        Alert.alert("Error", data.message || "Signup failed");
+        Alert.alert("Error", data.message || "Login failed");
       }
     } catch (error) {
-      console.error("Signup error:", error);
+      console.error("Login error:", error);
       Alert.alert("Error", "Network request failed");
     } finally {
       setIsLoading(false);
@@ -58,17 +53,7 @@ const SignupScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        <Text style={styles.title}>Create Account</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor={"#888"}
-          value={name}
-          onChangeText={setName}
-          autoCapitalize="words"
-        />
-
+        <Text style={styles.title}>Login</Text>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -78,7 +63,6 @@ const SignupScreen = () => {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -87,23 +71,20 @@ const SignupScreen = () => {
           onChangeText={setPassword}
           secureTextEntry
         />
-
         <TouchableOpacity
           style={styles.button}
-          onPress={handleSignup}
+          onPress={handleLogin}
           disabled={isLoading}
         >
           <Text style={styles.buttonText}>
-            {isLoading ? "Creating Account..." : "Sign Up"}
+            {isLoading ? "Loading..." : "Login"}
           </Text>
         </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => router.push("/login")}>
-          <Text style={styles.loginLink}>Already have an account? Login</Text>
+        <TouchableOpacity onPress={() => router.push("/signup")}>
+          <Text style={styles.loginLink}>Don't have an account? Signup</Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
-export default SignupScreen;
+export default LoginScreen;
