@@ -58,7 +58,7 @@ const SignupScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        <Text style={styles.title}>Create Account</Text>
+        <Text style={styles.title}>Sign Up</Text>
 
         <TextInput
           style={styles.input}
@@ -98,7 +98,7 @@ const SignupScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/login")}>
+        <TouchableOpacity onPress={() => router.replace("/login")}>
           <Text style={styles.loginLink}>Already have an account? Login</Text>
         </TouchableOpacity>
       </View>
